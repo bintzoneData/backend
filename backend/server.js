@@ -10,13 +10,20 @@ const PORT = process.env.PORT || 5000;
 //  conmect to db
 connectDB();
 const app = express();
-// http://localhost:3000',
+//
 // cors
-app.use(
-  cors({
-    origin: ['https://bintzone-api.onrender.com'],
-  })
-);
+// app.use(
+//   cors({
+//     origin: ['http://localhost:3000', 'https://bintzone-api.onrender.com'],
+//   })
+// );
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://bintzone-api.onrender.com'],
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 // getting bodyjson
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
