@@ -38,6 +38,11 @@ const ticketSchema = mongoose.Schema(
       enum: ['active', 'rejected', 'closed'],
       default: 'active',
     },
+    process: {
+      type: String,
+      required: true,
+      enum: ['ongoing', 'closed'],
+    },
     stageType: {
       type: String,
       num: ['comfirme', 'request', 'recieved', 'ready'],

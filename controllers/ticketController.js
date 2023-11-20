@@ -11,7 +11,7 @@ const getTickets = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('user not found');
   }
-  const tickets = await Ticket.find({ clientId: req.user.id });
+  const tickets = await Ticket.find({ clientId: req.user.id } && req.query);
   res.status(200).json(tickets);
 });
 
@@ -31,9 +31,9 @@ const createTicket = asyncHandler(async (req, res) => {
     throw new Error('user not found');
   }
   let stage = {
-    type: 'Confirmation Stage',
+    type: 'Return Request',
     message:
-      "We're in the process of confirming the details you submitted for your warranty. Once the confirmation is complete, we'll promptly notify you.",
+      'We kindly request your immediate assistance in bringing the product you reported for inspection. Your prompt action will greatly assist in resolving the issue efficiently. Please let us know a convenient time for drop-off. Your cooperation is highly valued.',
   };
 
   const ticket = await Ticket.create({
@@ -43,14 +43,16 @@ const createTicket = asyncHandler(async (req, res) => {
     purchase_date,
     serial,
     note,
+    process: 'ongoing',
     // created_date,
     // created_time,
     status: 'active',
     stage: stage,
     clientId,
-    stageType: 'confirme',
+    stageType: 'request',
   });
-  res.status(201).json(ticket);
+
+  res.status(201).json({ created: true });
 });
 // @get  user ticket
 // @route get/api/tickets
