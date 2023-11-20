@@ -14,7 +14,7 @@ const app = express();
 // cors
 app.use(
   cors({
-    origin: ['https://bintzone-api.onrender.com'],
+    origin: ['http://localhost:3000', 'https://bintzone-api.onrender.com'],
   })
 );
 // getting bodyjson
