@@ -49,6 +49,7 @@ const createTicket = asyncHandler(async (req, res) => {
     // created_time,
     stage: stage,
     clientId,
+    warranty: true,
     stageType: 'request',
   });
 
@@ -119,22 +120,21 @@ const updateTicket = asyncHandler(async (req, res) => {
   }
   const { stageType } = req.body;
   let stage;
-  let status;
   if (stageType === 'request') {
     stage = {
       type: 'Return Request',
       message:
         'We kindly request your immediate assistance in bringing the product you reported for inspection. Your prompt action will greatly assist in resolving the issue efficiently. Please let us know a convenient time for drop-off. Your cooperation is highly valued.',
+      status: 'waiting',
     };
-    status = 'waiting';
   }
   if (stageType === 'progress') {
     stage = {
       type: 'In-progress',
       message:
         "We've received the product you returned regarding the reported issue. Our team is currently inspecting it to address the matter effectively. We'll update you on the progress shortly.",
+      status: 'active',
     };
-    status = 'active';
   }
 
   if (stageType === 'ready') {
@@ -142,14 +142,13 @@ const updateTicket = asyncHandler(async (req, res) => {
       type: 'Ready for Collection',
       message:
         "We're pleased to inform you that your product is now ready for collection following the necessary repairs. Please let us know your preferred time for pick-up, and we'll ensure a smooth handover.",
+      status: 'ready',
     };
-    status = 'ready';
   }
 
   const data = {
     ...req.body,
     stage,
-    status,
   };
   const updatedTicket = await Ticket.findByIdAndUpdate(req.params.id, data, {
     new: true,
