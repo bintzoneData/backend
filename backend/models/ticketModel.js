@@ -32,12 +32,7 @@ const ticketSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    status: {
-      type: String,
-      required: true,
-      enum: ['active', 'rejected', 'closed'],
-      default: 'active',
-    },
+
     process: {
       type: String,
       required: true,
@@ -45,7 +40,7 @@ const ticketSchema = mongoose.Schema(
     },
     stageType: {
       type: String,
-      num: ['comfirme', 'request', 'recieved', 'ready'],
+      num: ['request', 'progress', 'ready'],
       required: true,
     },
     stage: {
@@ -55,18 +50,10 @@ const ticketSchema = mongoose.Schema(
       message: {
         type: String,
       },
-    },
-    comfirme: {
-      type: Boolean,
-      default: true,
-    },
-    request: {
-      type: Boolean,
-      default: false,
-    },
-    recieved: {
-      type: Boolean,
-      default: false,
+      status: {
+        type: String,
+        enum: ['active', 'waiting', 'ready', 'closed'],
+      },
     },
     warranty: {
       type: Boolean,
